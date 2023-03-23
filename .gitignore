@@ -1,0 +1,6 @@
+temp
+build
+*.lock
+*.log
+try.*
+*cookie.txt

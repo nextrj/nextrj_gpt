@@ -1,5 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import Counter from "../islands/Counter.tsx";
+import DarkModeSwitcher from "../islands/DarkModeSwitcher.tsx";
 
 export default function Home() {
   return (
@@ -7,6 +8,8 @@ export default function Home() {
       <Head>
         <title>Fresh App</title>
       </Head>
+      <DarkModeSwitcher/>
+      <body class="dark:text-white dark:bg-black">
       <div class="p-4 mx-auto max-w-screen-md">
         <img
           src="/logo.svg"
@@ -19,6 +22,7 @@ export default function Home() {
         </p>
         <Counter start={3} />
       </div>
+      </body>
     </>
   );
 }

@@ -4,77 +4,51 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import {
   GrActions,
   GrMoon,
-  GrSystem,
-} from "https://deno.land/x/react_icons@0.2.3/gr/mod.ts";
+} from "react_icons/gr/mod.ts";
 
-interface DarkModeProps {
-  prev: "light" | "dark" | "system";
+interface Props {
+  dark?: boolean;
 }
 
-export default function DarkMode(props: DarkModeProps) {
-  /**
-   * Used to format mode as text in screen
-   */
-  function getMode(): "light" | "dark" | "system" {
-    if (!IS_BROWSER) {
-      return props.prev;
-    }
-    if (localStorage.theme === "dark") {
-      return "dark";
-    }
-    if (localStorage.theme) {
-      return "light";
-    }
-    return "system";
+export default function DarkModeSwitcher(props: Props) {
+  function isCurrentDark(): boolean {
+    console.log(`-IS_BROWSER=${IS_BROWSER}`)
+    let dark;
+    if (!IS_BROWSER) dark = false;
+    else dark = ("isDark" in localStorage) 
+      ? localStorage.isDark 
+      : window.matchMedia("(prefers-color-scheme: dark)").matches 
+
+    
+    console.log(`window=${window}`)
+    console.log(`window.matchMedia=${window.matchMedia}`)
+    console.log(`dark0=${"isDark" in localStorage}`)
+    console.log(`dark1=${window.matchMedia("(prefers-color-scheme: dark)").matches}`)
+    console.log(`dark=${dark}`)
+    return dark
   }
 
-  function updateMode() {
-    const w = (window as unknown as { isDark: boolean });
-    w.isDark = localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    document.documentElement.classList[w.isDark ? "add" : "remove"]("dark");
+  const [dark, setDark] = useState(props.dark);
+  console.log(`init dark=${dark}`)
+  // console.log(`isCurrentDark()=${isCurrentDark()}`)
+
+  if (dark && !document.documentElement.classList.contains("dark"))
+    document.documentElement.classList.add("dark")
+
+  function toggleDark() {
+    console.log(`IS_BROWSER=${IS_BROWSER}`)
+    console.log(`0=${dark}`)
+    const next = !dark
+    localStorage.dark = next
+    setDark(next)
+    console.log(`1=${dark}`)
+    document.documentElement.classList[next ? "add" : "remove"]("dark");
   }
-
-  const [mode, setMode] = useState(getMode());
-
-  const setDarkModeOn = () => {
-    localStorage.theme = "dark";
-    updateMode();
-    setMode("dark");
-  };
-
-  const setDarkModeAuto = () => {
-    delete localStorage.theme;
-    updateMode();
-    setMode("system");
-  };
-
-  const setDarkModeOff = () => {
-    localStorage.theme = "light";
-    updateMode();
-    setMode("light");
-  };
 
   return (
-    <div class="flex gap-2 w-full">
-      <Button onClick={setDarkModeOn}>
-        <GrMoon />
-        Force Dark
+      <Button onClick={toggleDark}>
+        {props.dark ? (<GrMoon />) : (<GrActions />)}
+        |{props.dark}
       </Button>
-
-      <Button onClick={setDarkModeAuto}>
-        <GrSystem />
-        System
-      </Button>
-
-      <Button onClick={setDarkModeOff}>
-        <GrActions />
-        Force light
-      </Button>
-      <div>
-        Current Mode: <b class="text-3xl">{mode}</b>
-      </div>
-    </div>
   );
 }

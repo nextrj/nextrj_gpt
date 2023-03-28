@@ -9,7 +9,6 @@ export default function Home() {
         <title>Fresh App</title>
       </Head>
       <DarkModeSwitcher/>
-      <body class="dark:text-white dark:bg-black">
       <div class="p-4 mx-auto max-w-screen-md">
         <img
           src="/logo.svg"
@@ -22,7 +21,6 @@ export default function Home() {
         </p>
         <Counter start={3} />
       </div>
-      </body>
     </>
   );
 }

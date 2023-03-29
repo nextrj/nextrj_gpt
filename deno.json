@@ -4,7 +4,18 @@
   },
   "importMap": "./import_map.json",
   "compilerOptions": {
+    "strict": true,
+    "allowJs": false,
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
+  },
+  "fmt": {
+    "options": {
+      "useTabs": false,
+      "lineWidth": 120,
+      "indentWidth": 2,
+      "singleQuote": false,
+      "semiColons": false
+    }
   }
 }

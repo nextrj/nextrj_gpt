@@ -1,6 +1,6 @@
-import { Options } from "$fresh/plugins/twind.ts";
+import { Options } from "$fresh/plugins/twind.ts"
 
 export default {
   selfURL: import.meta.url,
-  darkMode: 'class',
-} as Options;
+  darkMode: "class",
+} as Options
